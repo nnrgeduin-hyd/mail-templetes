@@ -1,185 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Apple Mail Clone</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Report</title>
+    <style>
+        body {
+            font-family: franklin gothic;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f8fa;
+            font-size: 13px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #cdcfd1;
+            overflow: hidden;
+        }
+        .header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #e6ecf0;
+        }
+        .header img {
+            max-width: 90px;
+            height: auto;
+        }
 
-    body {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+        /* Report title section */
+        .report-header {
+            text-align: center;
+            padding: 12px 10px;
+            background: #f9fbfc;
+            border-bottom: 1px solid #e6ecf0;
+        }
+        .report-header h2 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: bold;
+            color: #14171a;
+        }
+        .report-header p {
+            margin: 4px 0;
+            font-size: 12.5px;
+            color: #657786;
+        }
 
-    header {
-      background: #f1f1f1;
-      padding: 10px 20px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      border-bottom: 1px solid #ccc;
-    }
+        .content {
+            padding: 12px;
+            color: #14171a;
+            font-size: 13px;
+            line-height: 1.4;
+        }
 
-    .container {
-      display: flex;
-      flex: 1;
-    }
+        /* Rounded Jio-style Table */
+        .report-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+            font-size: 12.5px;
+            border: 1px solid #e6ecf0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .report-table thead {
+            background-color: #f0f3f5;
+        }
+        .report-table th {
+            text-align: center; /* Center align header */
+            padding: 10px;
+            color: #14171a;
+            font-weight: bold;
+            border-bottom: 1px solid #e6ecf0;
+        }
+        .report-table td {
+            text-align: center; /* Center align values */
+            padding: 10px;
+            color: #333;
+            border-bottom: 1px solid #f0f3f5;
+        }
+        .report-table tr:last-child td {
+            border-bottom: none;
+        }
+        .report-table tr:nth-child(even) {
+            background-color: #f9fbfc;
+        }
 
-    .sidebar {
-      width: 220px;
-      background: #f9f9f9;
-      border-right: 1px solid #ddd;
-      padding: 15px;
-    }
+        /* Absent Section */
+        .absent-section {
+            margin-top: 12px;
+            padding: 10px;
+            background: #f9fbfc;
+            border: 1px solid #e6ecf0;
+            border-radius: 10px;
+        }
+        .absent-section h3 {
+            margin: 0 0 8px;
+            font-size: 13.5px;
+            font-weight: bold;
+            color: #14171a;
+        }
+        .absent-names {
+            font-size: 12.5px;
+            color: #333;
+            line-height: 1.5;
+        }
 
-    .sidebar h3 {
-      margin-bottom: 10px;
-    }
+        /* Buttons */
+        .buttons {
+            text-align: center;
+            margin: 14px 0;
+        }
+        .x-button {
+            display: inline-block;
+            padding: 6px 14px;
+            margin: 4px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #1da1f2;
+            border-radius: 16px;
+            font-size: 12.5px;
+            font-weight: bold;
+        }
+        .x-button.secondary {
+            background-color: #657786;
+        }
 
-    .sidebar ul {
-      list-style: none;
-    }
-
-    .sidebar li {
-      margin: 10px 0;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 4px;
-    }
-
-    .sidebar li:hover {
-      background-color: #e0e0e0;
-    }
-
-    .mail-list {
-      width: 300px;
-      border-right: 1px solid #ddd;
-      overflow-y: auto;
-    }
-
-    .mail-item {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .mail-item:hover {
-      background-color: #f0f0f0;
-    }
-
-    .mail-item.selected {
-      background-color: #d0e0ff;
-    }
-
-    .mail-preview {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .mail-preview h2 {
-      margin-bottom: 10px;
-    }
-
-    .mail-preview p {
-      line-height: 1.6;
-    }
-
-    footer {
-      padding: 10px;
-      text-align: center;
-      background: #f1f1f1;
-      border-top: 1px solid #ccc;
-    }
-  </style>
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 8px;
+            font-size: 11.5px;
+            color: #657786;
+            border-top: 1px solid #e6ecf0;
+        }
+		@media (max-width: 600px) {
+            .container {
+                margin: 5px;
+            }
+            .x-button {
+                display: block;
+                margin: 6px auto;
+                width: 70%;
+            }
+        }
+        
+    </style>
 </head>
 <body>
-  <header>📧 Apple Mail</header>
+    <div class="container">
+        <!-- College Logo -->
+        <div class="header">
+            <img src="https://via.placeholder.com/100x30?text=College+Logo" alt="College Logo">
+        </div>
 
-  <div class="container">
-    <div class="sidebar">
-      <h3>Folders</h3>
-      <ul>
-        <li>Inbox</li>
-        <li>Sent</li>
-        <li>Drafts</li>
-        <li>Spam</li>
-        <li>Trash</li>
-      </ul>
+        <!-- Report Header (Class, Date, Time) -->
+        <div class="report-header">
+            <h2>III-I CSE-B Attendance Report</h2>
+            <p>Date: Sunday, July 20th, 2025</p>
+            <p>Time: 07:48 AM</p>
+        </div>
+
+        <!-- Email Content -->
+        <div class="content">
+            <p>Dear Faculty,</p>
+            <p>Here is the attendance report:</p>
+
+            <!-- Jio-style Rounded Table -->
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Total Students</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Attendance %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>65</td>
+                        <td>60</td>
+                        <td>5</td>
+                        <td>92.3%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Absent Students Section -->
+            <div class="absent-section">
+                <h3>Absent Students (5)</h3>
+                <p class="absent-rollnumbers">
+                    237Z1A0575
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <a href="[Insert Daily Attendance Sheet Link]" class="x-button">Daily Attendance</a>
+                <a href="[Insert ERP Attendance Sheet Link]" class="x-button secondary">ERP Attendance</a>
+            </div>
+
+            <p>Contact us for any queries.</p>
+            <p>Regards,<br>CSE-B(2023-27) Class Representative's</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>NNRG College of Engineering, CSE-B 2023-27</p>
+        </div>
     </div>
-
-    <div class="mail-list" id="mailList">
-      <!-- Mail items will be added by JS -->
-    </div>
-
-    <div class="mail-preview" id="mailPreview">
-      <h2>Select an email</h2>
-      <p>The email content will appear here.</p>
-    </div>
-  </div>
-
-  <footer>Apple Mail Clone Demo - Built in HTML/CSS/JS</footer>
-
-  <script>
-    const mails = [
-      {
-        subject: "Welcome to Apple Mail!",
-        sender: "apple@example.com",
-        content: "Thank you for using Apple Mail. This is your first message. Enjoy a fast, clean interface and smooth experience."
-      },
-      {
-        subject: "Your Invoice is Ready",
-        sender: "billing@apple.com",
-        content: "Your invoice for July 2025 is ready. Please review it at your earliest convenience. Thank you for choosing Apple."
-      },
-      {
-        subject: "iCloud Storage Almost Full",
-        sender: "support@icloud.com",
-        content: "Your iCloud storage is almost full. Consider upgrading your plan to continue storing photos, documents, and more."
-      },
-      {
-        subject: "New Login Detected",
-        sender: "security@apple.com",
-        content: "A new login to your Apple ID was detected from Hyderabad, India. If this wasn't you, please secure your account."
-      }
-    ];
-
-    const mailListEl = document.getElementById("mailList");
-    const mailPreviewEl = document.getElementById("mailPreview");
-
-    function loadMails() {
-      mails.forEach((mail, index) => {
-        const item = document.createElement("div");
-        item.className = "mail-item";
-        item.innerHTML = `
-          <strong>${mail.subject}</strong><br>
-          <small>${mail.sender}</small>
-        `;
-        item.addEventListener("click", () => {
-          document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("selected"));
-          item.classList.add("selected");
-          showMail(index);
-        });
-        mailListEl.appendChild(item);
-      });
-    }
-
-    function showMail(index) {
-      const mail = mails[index];
-      mailPreviewEl.innerHTML = `
-        <h2>${mail.subject}</h2>
-        <p><strong>From:</strong> ${mail.sender}</p>
-        <p>${mail.content}</p>
-      `;
-    }
-
-    loadMails();
-  </script>
 </body>
 </html>
